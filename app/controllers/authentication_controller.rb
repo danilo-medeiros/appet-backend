@@ -5,6 +5,10 @@ class AuthenticationController < ApplicationController
     render json: { token: auth_token }
   end
 
+  def register
+    render json: current_user, status: :ok
+  end
+
   private
 
   def auth_params

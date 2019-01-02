@@ -50,6 +50,7 @@ class AdsController < ApplicationController
       description
       aprox_age
       weight
+      user_id
     ]
   end
 end

@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   resources :ads
   post 'signup', to: 'users#signup'
   post 'auth/login', to: 'authentication#authenticate'
+  get 'auth', to: 'authentication#register'
 end

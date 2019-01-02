@@ -1,7 +1,35 @@
 class Ad < ApplicationRecord
-  enum pet_type: { dog: 0, cat: 1, bird: 2, fish: 3, others: 4 }
-  enum size: { p: 0, m: 1, g: 2, gg: 3 }
+  attr_writer :user_id
+
+  belongs_to :user, foreign_key: :created_by
+
+  enum pet_type: {
+    dog: 0,
+    cat: 1,
+    bird: 2,
+    fish: 3,
+    others: 4
+  }
+
+  enum size: {
+    p: 0,
+    m: 1,
+    g: 2,
+    gg: 3
+  }
 
   # validations
-  validates_presence_of :title, :pet_type, :size
+  validates_presence_of %i[
+    title
+    pet_type
+    description
+    size
+    created_by
+    city
+    state
+  ]
+
+  def user_id=(value)
+    self.created_by = value
+  end
 end
