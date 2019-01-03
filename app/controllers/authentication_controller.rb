@@ -6,7 +6,8 @@ class AuthenticationController < ApplicationController
   end
 
   def register
-    render json: current_user, status: :ok
+    @user = current_user
+    render 'auth/register'
   end
 
   private

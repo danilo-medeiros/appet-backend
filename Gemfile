@@ -10,8 +10,12 @@ gem 'jwt', '~> 2.1.0'
 gem 'rails', '~> 5.2.2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
+gem 'oj', '~> 3.7.6'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
+gem 'rabl', '~> 0.14.0'
+gem 'ransack', '~> 2.1.1'
+gem 'will_paginate', '~> 3.1.6'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production

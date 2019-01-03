@@ -3,8 +3,9 @@ class AdsController < ApplicationController
   # before_action :permit_params, only: %i[create update]
 
   def index
-    @ads = Ad.all
-    render json: @ads, status: :ok
+    @q = Ad.ransack(params[:q])
+    @ads = @q.result(distinct: true).paginate(page: params[:page], per_page: 20)
+    render 'ads/index'
   end
 
   def create
@@ -18,7 +19,7 @@ class AdsController < ApplicationController
   end
 
   def show
-    render json: @ad, status: :ok
+    render 'ads/show'
   end
 
   def destroy
