@@ -30,8 +30,6 @@ class AdsController < ApplicationController
 
   def set_ad
     @ad = Ad.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
   end
 
   def permit_params
