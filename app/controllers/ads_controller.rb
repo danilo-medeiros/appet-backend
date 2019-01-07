@@ -1,5 +1,5 @@
 class AdsController < ApplicationController
-  before_action :set_ad, only: %i[show update destroy]
+  before_action :set_ad, only: %i[show update destroy picture]
   # before_action :permit_params, only: %i[create update]
 
   def index
@@ -11,6 +11,15 @@ class AdsController < ApplicationController
   def create
     @ad = Ad.create!(permit_params)
     render json: @ad, status: :created
+  end
+
+  def picture
+    @ad.picture.attach(params[:file])
+    if @ad.picture.attached?
+      render json: @ad, status: :ok
+    else
+      head :not_modified
+    end
   end
 
   def update
@@ -51,5 +60,9 @@ class AdsController < ApplicationController
       weight
       user_id
     ]
+  end
+
+  def picture_params
+    params.permit(:file)
   end
 end

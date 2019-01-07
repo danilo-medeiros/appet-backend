@@ -1,7 +1,10 @@
+include Rails.application.routes.url_helpers
+
 class Ad < ApplicationRecord
   attr_writer :user_id
 
   belongs_to :user, foreign_key: :created_by
+  has_one_attached :picture
 
   enum pet_type: {
     dog: 0,
@@ -31,5 +34,9 @@ class Ad < ApplicationRecord
 
   def user_id=(value)
     self.created_by = value
+  end
+
+  def picture_url
+    rails_blob_path(self.picture)
   end
 end
