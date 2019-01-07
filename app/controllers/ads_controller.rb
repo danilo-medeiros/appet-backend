@@ -5,7 +5,7 @@ class AdsController < ApplicationController
   def index
     @q = Ad.ransack(params[:q])
     @ads = @q.result(distinct: true).paginate(page: params[:page], per_page: 20)
-    render 'ads/index'
+    render json: @ads, status: :ok
   end
 
   def create
@@ -28,6 +28,16 @@ class AdsController < ApplicationController
   end
 
   private
+
+  def paginate(items)
+    return {
+      records: items,
+      pagination: {
+        current_page: items.current_page,
+        count: items.count
+      }
+    }
+  end
 
   def set_ad
     @ad = Ad.find(params[:id])

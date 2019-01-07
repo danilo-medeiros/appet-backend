@@ -1,12 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe 'Ads resource', type: :request do
+describe 'Ads resource', type: :request do
   let!(:ads) { create_list(:ad, 5) }
 
   describe 'GET /ads' do
     before { get '/ads' }
 
     it 'should return ads' do
+      debugger
       expect(json).not_to be_empty
       expect(json.size).to eq(5)
     end
