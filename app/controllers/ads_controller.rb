@@ -1,6 +1,6 @@
 class AdsController < ApplicationController
   before_action :set_ad, only: %i[show update destroy picture]
-  # before_action :permit_params, only: %i[create update]
+  before_action :authorization, only: %i[update destroy picture]
 
   def index
     @q = Ad.ransack(params[:q])
@@ -38,6 +38,10 @@ class AdsController < ApplicationController
   end
 
   private
+
+  def authorization
+    authorize @ad
+  end
 
   def paginate(items)
     return {

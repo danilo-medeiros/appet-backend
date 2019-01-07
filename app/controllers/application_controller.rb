@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::API
   include ExceptionHandler
+  include Pundit
+
   before_action :authorize_request, only: %i[create destroy update register]
   
   attr_reader :current_user

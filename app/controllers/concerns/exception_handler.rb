@@ -13,5 +13,9 @@ module ExceptionHandler
     rescue_from JWT::DecodeError do |e|
       head :unauthorized
     end
+
+    rescue_from Pundit::NotAuthorizedError do |e|
+      head :forbidden
+    end
   end
 end

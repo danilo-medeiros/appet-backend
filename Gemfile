@@ -14,6 +14,7 @@ gem 'sqlite3'
 gem 'oj', '~> 3.7.6'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
+gem 'pundit', '~> 2.0.0'
 gem 'rabl', '~> 0.14.0'
 gem 'ransack', '~> 2.1.1'
 gem 'will_paginate', '~> 3.1.6'
