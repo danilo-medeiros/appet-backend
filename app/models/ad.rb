@@ -37,6 +37,6 @@ class Ad < ApplicationRecord
   end
 
   def picture_url
-    rails_blob_path(self.picture) if self.picture.attached?
+    rails_blob_path(self.picture, only_path: true) if self.picture.attached?
   end
 end

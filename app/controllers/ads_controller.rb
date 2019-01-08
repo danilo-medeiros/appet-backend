@@ -6,7 +6,7 @@ class AdsController < ApplicationController
     @q = Ad.ransack(params[:q])
     @q.sorts = ['created_at desc']
     @ads = @q.result(distinct: true).paginate(page: params[:page], per_page: 20)
-    render json: @ads, status: :ok
+    render 'ads/index'
   end
 
   def create
