@@ -5,11 +5,10 @@ describe 'Ads resource', type: :request do
 
   describe 'GET /ads' do
     before { get '/ads' }
-
+    
     it 'should return ads' do
-      debugger
-      expect(json).not_to be_empty
-      expect(json.size).to eq(5)
+      expect(json['ads']).not_to be_empty
+      expect(json['ads'].size).to eq(5)
     end
   end
 
@@ -24,25 +23,42 @@ describe 'Ads resource', type: :request do
     end
   end
 
-  describe 'POST /ads' do
-    let!(:params) do
-      {
-        title: Faker::Lorem.word,
-        title: Faker::Lorem.word,
-        pet_type: rand(0..4),
-        size: rand(0..3),
-        description: Faker::Lorem.sentence(3),
-        created_by: 9,
-        city: Faker::Address.city,
-        state: Faker::Address.state
-      }
+  context 'authenticated' do
+    let!(:user) { create(:user) }
+    let!(:token) { authenticate user }
+
+    describe 'POST /ads' do
+      let!(:params) do
+        {
+          title: Faker::Lorem.word,
+          title: Faker::Lorem.word,
+          pet_type: 'dog',
+          size: 'p',
+          description: Faker::Lorem.sentence(3),
+          created_by: 9,
+          city: Faker::Address.city,
+          state: Faker::Address.state
+        }
+      end
+  
+      before { post '/ads', params: params, headers: { Authorization: token } }
+      
+      it 'should return the created ad' do
+        expect(json).not_to be_empty
+        expect(response).to have_http_status(:created)
+      end
     end
 
-    before { post '/ads', params: params }
-    
-    it 'should return the created ad' do
-      expect(json).not_to be_empty
-      expect(response).to have_http_status(:created)
+    describe 'PUT /ads/:id' do
+      let!(:ad) { create(:ad, user_id: user.id) }
+
+      before { put "/ads/#{user.id}", params: { ad: ad }, headers: { Authorization: token } }
+
+      it 'should return the updated ad' do
+        expect(json).not_to be_empty
+        expect(response).to have_http_status(:ok)
+        expect(json['id']).to eq(user.id)
+      end
     end
   end
 end
