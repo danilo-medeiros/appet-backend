@@ -23,14 +23,13 @@ describe 'Ads resource', type: :request do
     end
   end
 
-  context 'authenticated' do
+  context 'authorized' do
     let!(:user) { create(:user) }
     let!(:token) { authenticate user }
 
     describe 'POST /ads' do
       let!(:params) do
         {
-          title: Faker::Lorem.word,
           title: Faker::Lorem.word,
           pet_type: 'dog',
           size: 'p',
@@ -58,6 +57,33 @@ describe 'Ads resource', type: :request do
         expect(json).not_to be_empty
         expect(response).to have_http_status(:ok)
         expect(json['id']).to eq(user.id)
+      end
+    end
+  end
+
+  context 'unauthorized' do
+    describe 'POST /ads' do
+      let!(:user) { create(:user) }
+
+      describe 'POST /ads' do
+        let!(:params) do
+          {
+            title: Faker::Lorem.word,
+            pet_type: 'dog',
+            size: 'p',
+            description: Faker::Lorem.sentence(3),
+            created_by: 9,
+            city: Faker::Address.city,
+            state: Faker::Address.state
+          }
+        end
+    
+        before { post '/ads', params: params }
+        
+        it 'should return the created ad' do
+          expect(response.body).to be_empty
+          expect(response).to have_http_status(:unauthorized)
+        end
       end
     end
   end
