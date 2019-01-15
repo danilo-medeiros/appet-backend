@@ -6,8 +6,8 @@ class JsonWebToken
     JWT.encode(payload, HMAC_SECRET)
   end
 
-  def self.decode(token)
-    body = JWT.decode(token, HMAC_SECRET)[0]
+  def self.decode(token, validation = true)
+    body = JWT.decode(token, HMAC_SECRET, validation)[0]
     HashWithIndifferentAccess.new body
   end
 end

@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   post 'signup', to: 'users#signup'
   post 'auth/login', to: 'authentication#authenticate'
   get 'register', to: 'authentication#register'
+  get 'auth/refresh', to: 'authentication#refresh'
   put 'register', to: 'users#update'
 end

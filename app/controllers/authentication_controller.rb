@@ -14,6 +14,16 @@ class AuthenticationController < ApplicationController
     render 'auth/register'
   end
 
+  def refresh
+    begin
+      render json: { token: request.headers['Authorization'] } if current_user
+    rescue JWT::ExpiredSignature
+      new_token = RefreshToken.new(request.headers).call
+      head :unauthorized if new_token.nil?
+      render json: { token: new_token }
+    end
+  end
+
   private
 
   def auth_params
