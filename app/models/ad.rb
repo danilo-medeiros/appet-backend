@@ -32,6 +32,14 @@ class Ad < ApplicationRecord
     state
   ]
 
+  ransacker :pet_type, formatter: proc {|v| pet_types[v]} do |parent|
+    parent.table[:pet_type]
+  end
+
+  ransacker :size, formatter: proc {|v| sizes[v]} do |parent|
+    parent.table[:size]
+  end
+
   def user_id=(value)
     self.created_by = value
   end

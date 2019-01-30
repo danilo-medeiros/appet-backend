@@ -4,7 +4,8 @@ class AdsController < ApplicationController
 
   def index
     @q = Ad.ransack(params[:q])
-    @q.sorts = ['created_at desc']
+    sort = "#{params[:order_by]} #{(params[:asc] == 'true' ? 'asc' : 'desc')}"
+    @q.sorts = [sort]
     @ads = @q.result(distinct: true).paginate(page: params[:page], per_page: params[:per_page])
     render 'ads/index'
   end
